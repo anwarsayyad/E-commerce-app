@@ -13,11 +13,22 @@ from django.contrib.auth.models import (
 
 from django.conf import settings
 
-STATUS_CHOICES = {
-    'pending': 'pending',
-    'accepted': 'accepted',
-    'rejected': 'rejected',
-}
+CATEGORY_CHOICES = (
+    ('S', 'Shirt'),
+    ('SW', 'Sport wear'),
+    ('OW', 'Outwear')
+)
+
+LABEL_CHOICES = (
+    ('P', 'Primary'),
+    ('S', 'Secondary'),
+    ('D', 'Danger')
+)
+
+ADDRESS_CHOICES =(
+    ('p', 'Billing'),
+    ('S', 'Shipping'),
+)
 
 
 class UserManager(BaseUserManager):
@@ -54,3 +65,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+class Items(models.Model):
+    title = models.CharField(max_length=50)
+    price = models.FloatField()
+    discount_price = models.FloatField(blank=True, null=True)
+    category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
+    label = models.CharField(choices=LABEL_CHOICES, max_length=1)
+    description = models.TextField()
+
